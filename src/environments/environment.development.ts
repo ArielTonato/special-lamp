@@ -1,3 +1,3 @@
 export const environment = {
-  PAGE_SIZE: 6,
+  PAGE_SIZE: 10,
 };
