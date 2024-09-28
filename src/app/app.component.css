@@ -1,0 +1,38 @@
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+.drawer-container {
+  height: 100vh; /* 100% del alto de la pantalla */
+  width: 100vw; /* 100% del ancho de la pantalla */
+  display: flex;
+}
+
+.drawer {
+  max-width: 280px; /* Puedes ajustar el ancho del drawer */
+  background-color: rgb(45, 50, 62);
+}
+
+mat-drawer-content {
+  flex: 1; /* Para que el contenido ocupe el espacio restante */
+  overflow: auto;
+}
+
+.opciones {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 0 24px;
+  background-color: rbg(30, 33, 41);
+  color: hsla(0, 0%, 100%, 0.7) !important;
+  height: 64px;
+}
+
+.opciones h3{
+  padding: 0;
+  margin: 0 10px;
+  line-height: 64px;
+}
+

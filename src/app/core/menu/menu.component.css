@@ -1,0 +1,31 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
+}
+mat-nav-list {
+  width: 95%;
+  height: calc(100vh - 84px);
+}
+mat-list-item{
+  margin-top: 10px;
+  border-radius: 0 24px 24px 0;
+}
+mat-list-item img{
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+}
+span{
+  display: inline-block;
+  padding-left: 8px;
+  font-size: 18px;
+}
+a,
+a:link,
+a:visited,
+a:active {
+  color: white !important;
+  font-size: 14px;
+}

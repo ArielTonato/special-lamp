@@ -1,0 +1,15 @@
+<mat-toolbar>
+  <button mat-button [matMenuTriggerFor]="menu">
+    <div class="container">
+      <img src="../../../../assets/images/avatar.png" alt="">
+      <span>Nombre de Usuario</span>
+      <mat-icon>keyboard_arrow_down</mat-icon>
+    </div>
+  </button>
+  <mat-menu #menu="matMenu">
+      <button mat-menu-item>
+          <mat-icon>logout</mat-icon>
+          <span>Cerrar Sesión</span>
+      </button>
+  </mat-menu>
+</mat-toolbar>

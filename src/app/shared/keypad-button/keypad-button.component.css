@@ -1,0 +1,13 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+div{
+  position: fixed;
+  bottom: 70px;
+  right: 15px;
+  z-index: 10000000;
+}
+

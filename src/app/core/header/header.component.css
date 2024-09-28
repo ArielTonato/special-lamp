@@ -1,0 +1,21 @@
+.container{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.profile{
+  height: 100%;
+}
+mat-toolbar img{
+  width: 40px;
+  max-height: 40px;
+  border-radius: 50%;
+  border: 1px solid transparent;
+}
+
+mat-toolbar{
+  display: flex;
+  justify-content: flex-end;
+  background-color: rgb(199,229,239);
+  border-bottom: 1px solid black;
+}

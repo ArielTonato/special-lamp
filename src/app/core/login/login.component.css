@@ -1,0 +1,18 @@
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+mat-card {
+  border-radius: 10%;
+}
+:host{
+  width: 80%;
+  display: block;
+}
+.textAlign{
+  text-align: center;
+}
+.textSize{
+  font-size: 32px;
+}

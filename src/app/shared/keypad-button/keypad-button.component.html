@@ -1,0 +1,9 @@
+<div class="container">
+  <button mat-fab
+      *ngFor="let button of keypadButtons"
+      [color]="button.color"
+      [matTooltip]="button.tooltip"
+      (click)="doAction(button.action)">
+      <mat-icon>{{ button.icon }}</mat-icon>
+  </button>
+</div>
