@@ -24,7 +24,9 @@ import { HttpClientModule } from "@angular/common/http";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatListModule } from "@angular/material/list";
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet'
-
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatSelectModule } from '@angular/material/select';
+import { MatNativeDateModule } from '@angular/material/core';
 
 
 
@@ -77,6 +79,9 @@ import { MatBottomSheetModule } from '@angular/material/bottom-sheet'
     NgScrollbarModule,
     HttpClientModule,
     MatSnackBarModule,
+    MatDatepickerModule,
+    MatSelectModule,
+    MatNativeDateModule
   ]
 })
 export class SharedModule { }

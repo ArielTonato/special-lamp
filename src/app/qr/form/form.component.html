@@ -1,1 +1,73 @@
-<p>form works!</p>
+<mat-toolbar>
+    <h3>{{ title }}</h3>
+    <button mat-icon-button mat-dialog-close>
+        <mat-icon>close</mat-icon>
+    </button>
+  </mat-toolbar>
+  <mat-dialog-content>
+    <form class="container" [formGroup]="group">
+        <mat-form-field>
+            <mat-label>Nombre</mat-label>
+            <input matInput formControlName="name" />
+          </mat-form-field>
+        
+          <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email" type="email" />
+          </mat-form-field>
+        
+          <mat-form-field>
+            <mat-label>Teléfono</mat-label>
+            <input matInput formControlName="phone" type="tel" />
+          </mat-form-field>
+        
+          <mat-form-field>
+            <mat-label>Tipo de Queja</mat-label>
+            <mat-select formControlName="complaintType">
+              <mat-option value="Mal Servicio">Mal Servicio</mat-option>
+              <mat-option value="Error de Facturación">Error de Facturación</mat-option>
+              <mat-option value="Otros">Otros</mat-option>
+            </mat-select>
+          </mat-form-field>
+        
+          <mat-form-field>
+            <mat-label>Descripción</mat-label>
+            <textarea matInput formControlName="description"></textarea>
+          </mat-form-field>
+        
+          <mat-form-field>
+            <mat-label>Fecha</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="date" />
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        
+          <mat-form-field>
+            <mat-label>Canal</mat-label>
+            <mat-select formControlName="channel">
+              <mat-option value="telefono">Teléfono</mat-option>
+              <mat-option value="email">Correo Electrónico</mat-option>
+              <mat-option value="redesSociales">Redes Sociales</mat-option>
+            </mat-select>
+          </mat-form-field>
+        <div fxLayout fxLayoutAlign="end" fxLayoutGap="10px">
+            <button
+                mat-raised-button
+                color="primary"
+                type="button"
+                [disabled]="group.invalid"
+                (click)="save()">
+                Grabar
+            </button>
+            <button
+                mat-button
+                color="primary"
+                type="button"
+                mat-dialog-close>
+                Cancelar
+            </button>
+        </div>
+    </form>
+  </mat-dialog-content>
+  
+  
