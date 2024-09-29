@@ -8,23 +8,24 @@ import { FormComponent } from '../form/form.component';
 import { environment } from 'src/environments/environment.development';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-export interface IAgency {
+export interface ICanal {
   _id: number;
   name: string;
-  address: string;
+  description: string;
 }
+
 @Component({
   selector: 'qr-page-list',
   templateUrl: './page-list.component.html',
   styleUrls: ['./page-list.component.css']
 })
 export class PageListComponent {
-  data: IAgency[] = this.getDataFromLocalStorage();
+  data: ICanal[] = this.getDataFromLocalStorage();
 
   metaDataColumns: MetaDataColumn[] = [
     { field: "_id", title: "ID" },
-    { field: "name", title: "AGENCIA" },
-    { field: "address", title: "DIRECCIÓN" }
+    { field: "name", title: "CANAL" },
+    { field: "description", title: "DESCRIPCIÓN" }
   ];
 
   keypadButtons: KeypadButton[] = [
@@ -32,8 +33,8 @@ export class PageListComponent {
     { icon: "add", tooltip: "AGREGAR", color: "primary", action: "NEW" }
   ];
 
-  records: IAgency[] = [];
-  paginatedData: IAgency[] = []; // Nuevo arreglo para los datos paginados
+  records: ICanal[] = [];
+  paginatedData: ICanal[] = []; // Nuevo arreglo para los datos paginados
   totalRecords = this.data.length;
   currentPage = 0;  // Página actual
 
@@ -43,10 +44,10 @@ export class PageListComponent {
 
   constructor() {
     this.saveToLocalStorage();
-    this.loadAgencies();
+    this.loadCanales();
   }
 
-  loadAgencies() {
+  loadCanales() {
     this.records = this.data;
     this.changePage(this.currentPage);  // Mantener la página actual
   }
@@ -56,33 +57,23 @@ export class PageListComponent {
     this.data.splice(position, 1);  // Eliminar el registro
     this.totalRecords = this.data.length;
     this.saveToLocalStorage();
-    this.loadAgencies();  // Mantener la página actual
+    this.loadCanales();  // Mantener la página actual
     this.showMessage('Registro eliminado');
   }
 
   getDataFromLocalStorage() {
-    const agencies = localStorage.getItem('agencies');
-    return agencies ? JSON.parse(agencies) : [
-      { _id: 1, name: 'Ambato', address: 'Calle A' },
-      { _id: 2, name: 'Riobamba', address: 'Calle B' },
-      { _id: 3, name: 'Quito', address: 'Calle C' },
-      { _id: 4, name: 'Cuenca', address: 'Calle D' },
-      { _id: 5, name: 'Guayaquil', address: 'Calle E' },
-      { _id: 6, name: 'Ambato', address: 'Calle A' },
-      { _id: 7, name: 'Riobamba', address: 'Calle B' },
-      { _id: 8, name: 'Quito', address: 'Calle C' },
-      { _id: 9, name: 'Cuenca', address: 'Calle D' },
-      { _id: 10, name: 'Guayaquil', address: 'Calle E' },
-      { _id: 11, name: 'Ambato', address: 'Calle A' },
-      { _id: 12, name: 'Riobamba', address: 'Calle B' },
-      { _id: 13, name: 'Quito', address: 'Calle C' },
-      { _id: 14, name: 'Cuenca', address: 'Calle D' },
-      { _id: 15, name: 'Guayaquil', address: 'Calle E' },
+    const canales = localStorage.getItem('canales');
+    return canales ? JSON.parse(canales) : [
+      { _id: 1, name: 'Teléfono', description: 'Atención telefónica' },
+      { _id: 2, name: 'Correo Electrónico', description: 'Atención por email' },
+      { _id: 3, name: 'Formulario Web', description: 'Formulario en el sitio web' },
+      { _id: 4, name: 'Chat en línea', description: 'Atención mediante chat' },
+      { _id: 5, name: 'Redes Sociales', description: 'Atención por redes sociales' },
     ];
   }
 
   saveToLocalStorage() {
-    localStorage.setItem('agencies', JSON.stringify(this.data));
+    localStorage.setItem('canales', JSON.stringify(this.data));
   }
 
   openForm(row: any | null = null) {
@@ -96,18 +87,18 @@ export class PageListComponent {
     reference.afterClosed().subscribe((response) => {
       if (!response) { return; }
       if (response._id) {
-        const agencia = { ...response };
-        this.data = this.data.map(ind => ind._id === agencia._id ? agencia : ind);
+        const canal = { ...response };
+        this.data = this.data.map(ind => ind._id === canal._id ? canal : ind);
         this.saveToLocalStorage();
-        this.loadAgencies();  // Mantener la página actual
+        this.loadCanales();  // Mantener la página actual
         this.showMessage('Registro actualizado');
       } else {
         const lastId = this.data[this.data.length - 1]._id;
-        const agencia = { ...response, _id: lastId + 1 };
-        this.data.push(agencia);
+        const canal = { ...response, _id: lastId + 1 };
+        this.data.push(canal);
         this.totalRecords = this.data.length;
         this.saveToLocalStorage();
-        this.loadAgencies();  // Mantener la página actual
+        this.loadCanales();  // Mantener la página actual
         this.showMessage('Registro exitoso');
       }
     });
@@ -116,7 +107,7 @@ export class PageListComponent {
   doAction(action: string) {
     switch (action) {
       case 'DOWNLOAD':
-        this.showBottomSheet("Lista de Agencias", "agencias", this.data);
+        this.showBottomSheet("Lista de Canales", "canales", this.data);
         break;
       case 'NEW':
         this.openForm();
