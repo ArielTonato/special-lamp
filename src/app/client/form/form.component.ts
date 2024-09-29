@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+
 
 @Component({
   selector: 'qr-form',
@@ -6,5 +9,35 @@ import { Component } from '@angular/core';
   styleUrls: ['./form.component.css']
 })
 export class FormComponent {
+  title=""
+  group!:FormGroup
 
+  constructor(
+    private reference:MatDialogRef<FormComponent>,
+    @Inject(MAT_DIALOG_DATA) public data:any){
+      this.title = data ? "EDITAR" : "NUEVO"
+  }
+
+  ngOnInit(){
+    this.loadForm()
+  }
+
+  save(){
+    const record = this.group.value
+    this.reference.close(record)
+  }
+
+  loadForm(){
+    console.log(this.data)
+    this.group = new FormGroup({
+      _id: new FormControl(this.data?._id),
+      cedula: new FormControl(this.data?.cedula, [Validators.required, Validators.minLength(4)]),
+      name: new FormControl(this.data?.name, [Validators.required, Validators.minLength(4)]),
+      lastName: new FormControl(this.data?.lastName, [Validators.required, Validators.minLength(4)]),
+      description: new FormControl(this.data?.description, [Validators.required, Validators.minLength(4)]),
+      address: new FormControl(this.data?.address, [Validators.required, Validators.minLength(4)]),
+      email: new FormControl(this.data?.email, [Validators.required, Validators.email]),
+      phone: new FormControl(this.data?.phone, [Validators.required, Validators.minLength(4)]),
+    })
+  }
 }
