@@ -1,1 +1,61 @@
-<p>form works!</p>
+<mat-toolbar>
+    <h3>{{ title }}</h3>
+    <button mat-icon-button mat-dialog-close>
+        <mat-icon>close</mat-icon>
+    </button>
+</mat-toolbar>
+<mat-dialog-content>
+    <form class="container" [formGroup]="group">
+        <!-- ID del Reclamo -->
+        <mat-form-field appearance="fill">
+            <mat-label>ID del Reclamo</mat-label>
+            <input matInput formControlName="id_complaint">
+        </mat-form-field>
+
+        <!-- Estado del Reclamo -->
+        <mat-form-field appearance="fill">
+            <mat-label>Estado del Reclamo</mat-label>
+            <mat-select formControlName="followUpStatus">
+                <mat-option value="Pendiente">Pendiente</mat-option>
+                <mat-option value="En proceso">En proceso</mat-option>
+                <mat-option value="Resuelto">Resuelto</mat-option>
+                <mat-option value="Cerrado">Cerrado</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <!-- Fecha de Seguimiento -->
+        <mat-form-field appearance="fill">
+            <mat-label>Fecha de Seguimiento</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="followUpDate">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <!-- Comentarios del Seguimiento -->
+        <mat-form-field appearance="fill">
+            <mat-label>Comentarios del Seguimiento</mat-label>
+            <textarea matInput formControlName="followUpComments"></textarea>
+        </mat-form-field>
+
+        <!-- Responsable del Seguimiento -->
+        <mat-form-field appearance="fill">
+            <mat-label>Responsable del Seguimiento</mat-label>
+            <input matInput formControlName="followUpBy">
+        </mat-form-field>
+
+        <!-- Acciones Tomadas -->
+        <mat-form-field appearance="fill">
+            <mat-label>Acciones Tomadas</mat-label>
+            <textarea matInput formControlName="actionsTaken"></textarea>
+        </mat-form-field>
+
+        <div fxLayout fxLayoutAlign="end" fxLayoutGap="10px">
+            <button mat-raised-button color="primary" type="button" [disabled]="group.invalid" (click)="save()">
+                Grabar
+            </button>
+            <button mat-button color="primary" type="button" mat-dialog-close>
+                Cancelar
+            </button>
+        </div>
+    </form>
+</mat-dialog-content>
