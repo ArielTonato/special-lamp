@@ -28,7 +28,6 @@ export class FormComponent {
   }
 
   loadForm(){
-    console.log(this.data)
     this.group = new FormGroup({
       _id: new FormControl(this.data?._id),
       name: new FormControl(this.data?.name, [Validators.required, Validators.minLength(4)]),

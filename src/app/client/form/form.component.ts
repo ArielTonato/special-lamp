@@ -10,11 +10,13 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 })
 export class FormComponent {
   title=""
-  group!:FormGroup
+  group!:FormGroup;
+  isEditing: boolean;
 
   constructor(
     private reference:MatDialogRef<FormComponent>,
     @Inject(MAT_DIALOG_DATA) public data:any){
+      this.isEditing = !!data;
       this.title = data ? "EDITAR" : "NUEVO"
   }
 
@@ -23,21 +25,27 @@ export class FormComponent {
   }
 
   save(){
-    const record = this.group.value
-    this.reference.close(record)
+    const formValue = this.group.value;
+    const record = {
+      ...formValue,
+      cedula: this.group.get('cedula')?.value
+    };
+    this.reference.close(record);
   }
 
   loadForm(){
-    console.log(this.data)
     this.group = new FormGroup({
       _id: new FormControl(this.data?._id),
-      cedula: new FormControl(this.data?.cedula, [Validators.required, Validators.minLength(4)]),
+      cedula: new FormControl({
+        value: this.data?.cedula,
+        disabled: this.isEditing
+      }, [Validators.required, Validators.minLength(10)]),
       name: new FormControl(this.data?.name, [Validators.required, Validators.minLength(4)]),
       lastName: new FormControl(this.data?.lastName, [Validators.required, Validators.minLength(4)]),
       description: new FormControl(this.data?.description, [Validators.required, Validators.minLength(4)]),
       address: new FormControl(this.data?.address, [Validators.required, Validators.minLength(4)]),
       email: new FormControl(this.data?.email, [Validators.required, Validators.email]),
-      phone: new FormControl(this.data?.phone, [Validators.required, Validators.minLength(4)]),
+      phone: new FormControl(this.data?.phone, [Validators.required, Validators.minLength(10)]),
     })
   }
 }

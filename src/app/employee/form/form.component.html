@@ -1,1 +1,58 @@
-<p>form works!</p>
+<mat-toolbar>
+    <h3>{{ title }}</h3>
+    <button mat-icon-button mat-dialog-close>
+        <mat-icon>close</mat-icon>
+    </button>
+  </mat-toolbar>
+  <mat-dialog-content>
+    <form class="container" [formGroup]="group">
+        <mat-form-field appearance="outline">
+            <mat-label>Cédula</mat-label>
+            <input type="text" matInput formControlName="cedula" required minlength="4">
+          </mat-form-field>
+          
+          <mat-form-field appearance="outline">
+            <mat-label>Nombre</mat-label>
+            <input type="text" matInput formControlName="name" required minlength="4">
+          </mat-form-field>
+          
+          <mat-form-field appearance="outline">
+            <mat-label>Apellido</mat-label>
+            <input type="text" matInput formControlName="lastName" required minlength="4">
+          </mat-form-field>
+          
+          <mat-form-field appearance="outline">
+            <mat-label>Dirección</mat-label>
+            <input type="text" matInput formControlName="address" required minlength="4">
+          </mat-form-field>
+          
+          <mat-form-field appearance="outline">
+            <mat-label>Email</mat-label>
+            <input type="email" matInput formControlName="email" required email>
+          </mat-form-field>
+          
+          <mat-form-field appearance="outline">
+            <mat-label>Teléfono</mat-label>
+            <input type="text" matInput formControlName="phone" required minlength="4">
+          </mat-form-field>
+        <div fxLayout fxLayoutAlign="end" fxLayoutGap="10px">
+            <button
+                mat-raised-button
+                color="primary"
+                type="button"
+                [disabled]="group.invalid"
+                (click)="save()">
+                Grabar
+            </button>
+            <button
+                mat-button
+                color="primary"
+                type="button"
+                mat-dialog-close>
+                Cancelar
+            </button>
+        </div>
+    </form>
+  </mat-dialog-content>
+  
+  
