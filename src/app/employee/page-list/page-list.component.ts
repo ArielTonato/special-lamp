@@ -25,7 +25,7 @@ export interface IEmpleado {
   styleUrls: ['./page-list.component.css']
 })
 export class PageListComponent {
-  data: IEmpleado[] = this.getDataFromLocalStorage();  // Ahora es un array de empleados
+  data: IEmpleado[] = this.getDataFromLocalStorage(); 
 
   metaDataColumns: MetaDataColumn[] = [
     { field: "_id", title: "ID" },
@@ -43,7 +43,7 @@ export class PageListComponent {
   ];
 
   records: IEmpleado[] = [];
-  paginatedData: IEmpleado[] = []; // Nuevo arreglo para los datos paginados
+  paginatedData: IEmpleado[] = []; 
   totalRecords = this.data.length;
   currentPage = 0;  // Página actual
 
@@ -58,15 +58,15 @@ export class PageListComponent {
 
   loadEmpleados() {
     this.records = this.data;
-    this.changePage(this.currentPage);  // Mantener la página actual
+    this.changePage(this.currentPage);  
   }
 
   delete(id: number) {
     const position = this.data.findIndex(ind => ind._id === id);
-    this.data.splice(position, 1);  // Eliminar el registro
+    this.data.splice(position, 1); 
     this.totalRecords = this.data.length;
     this.saveToLocalStorage();
-    this.loadEmpleados();  // Mantener la página actual
+    this.loadEmpleados();  
     this.showMessage('Registro eliminado');
   }
 
@@ -97,7 +97,7 @@ export class PageListComponent {
         console.log(empleado);
         this.data = this.data.map(ind => ind._id === empleado._id ? empleado : ind);
         this.saveToLocalStorage();
-        this.loadEmpleados();  // Mantener la página actual
+        this.loadEmpleados();  
         this.showMessage('Registro actualizado');
       } else {
         const lastId = this.data[this.data.length - 1]._id;
@@ -105,7 +105,7 @@ export class PageListComponent {
         this.data.push(empleado);
         this.totalRecords = this.data.length;
         this.saveToLocalStorage();
-        this.loadEmpleados();  // Mantener la página actual
+        this.loadEmpleados();  
         this.showMessage('Registro exitoso');
       }
     });
@@ -131,9 +131,9 @@ export class PageListComponent {
   }
 
   changePage(page: number) {
-    this.currentPage = page;  // Actualizar la página actual
+    this.currentPage = page;  
     const pageSize = environment.PAGE_SIZE;
     const skip = pageSize * page;
-    this.paginatedData = this.records.slice(skip, skip + pageSize); // Actualiza solo los datos paginados
+    this.paginatedData = this.records.slice(skip, skip + pageSize);
   }
 }

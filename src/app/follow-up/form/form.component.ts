@@ -1,14 +1,14 @@
 import { Component, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { DatePipe } from '@angular/common';  // Importar DatePipe
+import { DatePipe } from '@angular/common';  
 
 @Component({
   selector: 'qr-form',
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [DatePipe]  // Asegurarse de proveer el DatePipe
+  providers: [DatePipe]  
 })
 export class FormComponent {
   title = "";
@@ -17,7 +17,7 @@ export class FormComponent {
   constructor(
     private reference: MatDialogRef<FormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private datePipe: DatePipe  // Inyectar el DatePipe
+    private datePipe: DatePipe  
   ) {
     this.title = data ? "EDITAR" : "NUEVO";
   }
@@ -28,8 +28,6 @@ export class FormComponent {
 
   save() {
     let record = this.group.value;
-    
-    // Formatear la fecha seleccionada en el formato 'YYYY-MM-DD'
     if (record.followUpDate) {
       record.followUpDate = this.datePipe.transform(record.followUpDate, 'yyyy-MM-dd');
     }
@@ -41,11 +39,11 @@ export class FormComponent {
     this.group = new FormGroup({
       _id: new FormControl(this.data?._id),  
       id_complaint: new FormControl(this.data?.id_complaint),
-      followUpStatus: new FormControl(this.data?.followUpStatus || 'Pendiente', [Validators.required]),  // Estado del reclamo
-      followUpDate: new FormControl(this.data?.followUpDate, [Validators.required]),  // Fecha de seguimiento
-      followUpComments: new FormControl(this.data?.followUpComments, [Validators.minLength(10)]),  // Comentarios del seguimiento
-      followUpBy: new FormControl(this.data?.followUpBy, [Validators.minLength(4)]),  // Responsable del seguimiento
-      actionsTaken: new FormControl(this.data?.actionsTaken, [Validators.minLength(10)]),  // Acciones tomadas
+      followUpStatus: new FormControl(this.data?.followUpStatus || 'Pendiente', [Validators.required]),  
+      followUpDate: new FormControl(this.data?.followUpDate, [Validators.required]),
+      followUpComments: new FormControl(this.data?.followUpComments, [Validators.minLength(10)]), 
+      followUpBy: new FormControl(this.data?.followUpBy, [Validators.minLength(4)]), 
+      actionsTaken: new FormControl(this.data?.actionsTaken, [Validators.minLength(10)]),  
     });
   }
   

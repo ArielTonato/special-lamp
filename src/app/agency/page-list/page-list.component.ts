@@ -34,9 +34,9 @@ export class PageListComponent {
   ];
 
   records: IAgency[] = [];
-  paginatedData: IAgency[] = []; // Nuevo arreglo para los datos paginados
+  paginatedData: IAgency[] = [];
   totalRecords = this.data.length;
-  currentPage = 0;  // Página actual
+  currentPage = 0;  
 
   bottomSheet = inject(MatBottomSheet);
   dialog = inject(MatDialog);
@@ -49,15 +49,15 @@ export class PageListComponent {
 
   loadAgencies() {
     this.records = this.data;
-    this.changePage(this.currentPage);  // Mantener la página actual
+    this.changePage(this.currentPage);  
   }
 
   delete(id: number) {
     const position = this.data.findIndex(ind => ind._id === id);
-    this.data.splice(position, 1);  // Eliminar el registro
+    this.data.splice(position, 1); 
     this.totalRecords = this.data.length;
     this.saveToLocalStorage();
-    this.loadAgencies();  // Mantener la página actual
+    this.loadAgencies();  
     this.showMessage('Registro eliminado');
   }
 
@@ -100,7 +100,7 @@ export class PageListComponent {
         const agencia = { ...response };
         this.data = this.data.map(ind => ind._id === agencia._id ? agencia : ind);
         this.saveToLocalStorage();
-        this.loadAgencies();  // Mantener la página actual
+        this.loadAgencies();  
         this.showMessage('Registro actualizado');
       } else {
         const lastId = this.data[this.data.length - 1]._id;
@@ -108,7 +108,7 @@ export class PageListComponent {
         this.data.push(agencia);
         this.totalRecords = this.data.length;
         this.saveToLocalStorage();
-        this.loadAgencies();  // Mantener la página actual
+        this.loadAgencies();  
         this.showMessage('Registro exitoso');
       }
     });
@@ -134,9 +134,9 @@ export class PageListComponent {
   }
 
   changePage(page: number) {
-    this.currentPage = page;  // Actualizar la página actual
+    this.currentPage = page;  
     const pageSize = environment.PAGE_SIZE;
     const skip = pageSize * page;
-    this.paginatedData = this.records.slice(skip, skip + pageSize); // Actualiza solo los datos paginados
+    this.paginatedData = this.records.slice(skip, skip + pageSize);
   }
 }

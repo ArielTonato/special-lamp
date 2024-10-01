@@ -44,9 +44,9 @@ export class PageListComponent {
   ];
 
   records: ICliente[] = [];
-  paginatedData: ICliente[] = []; // Nuevo arreglo para los datos paginados
+  paginatedData: ICliente[] = []; 
   totalRecords = this.data.length;
-  currentPage = 0;  // Página actual
+  currentPage = 0;  
 
   bottomSheet = inject(MatBottomSheet);
   dialog = inject(MatDialog);
@@ -59,7 +59,7 @@ export class PageListComponent {
 
   loadClientes() {
     this.records = this.data;
-    this.changePage(this.currentPage);  // Mantener la página actual
+    this.changePage(this.currentPage);  
   }
 
   delete(id: number) {
@@ -67,7 +67,7 @@ export class PageListComponent {
     this.data.splice(position, 1);  // Eliminar el registro
     this.totalRecords = this.data.length;
     this.saveToLocalStorage();
-    this.loadClientes();  // Mantener la página actual
+    this.loadClientes();  
     this.showMessage('Registro eliminado');
   }
 
@@ -113,7 +113,7 @@ export class PageListComponent {
         const cliente = { ...response };
         this.data = this.data.map(ind => ind._id === cliente._id ? cliente : ind);
         this.saveToLocalStorage();
-        this.loadClientes();  // Mantener la página actual
+        this.loadClientes();  
         this.showMessage('Registro actualizado');
       } else {
         const lastId = this.data[this.data.length - 1]._id;
@@ -121,7 +121,7 @@ export class PageListComponent {
         this.data.push(cliente);
         this.totalRecords = this.data.length;
         this.saveToLocalStorage();
-        this.loadClientes();  // Mantener la página actual
+        this.loadClientes();  
         this.showMessage('Registro exitoso');
       }
     });
@@ -147,9 +147,9 @@ export class PageListComponent {
   }
 
   changePage(page: number) {
-    this.currentPage = page;  // Actualizar la página actual
+    this.currentPage = page; 
     const pageSize = environment.PAGE_SIZE;
     const skip = pageSize * page;
-    this.paginatedData = this.records.slice(skip, skip + pageSize); // Actualiza solo los datos paginados
+    this.paginatedData = this.records.slice(skip, skip + pageSize);
   }
 }
