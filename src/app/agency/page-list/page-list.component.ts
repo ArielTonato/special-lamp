@@ -7,12 +7,10 @@ import { MetaDataColumn } from 'src/app/shared/interfaces/metacolumn.interface';
 import { FormComponent } from '../form/form.component';
 import { environment } from 'src/environments/environment.development';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { IAgency } from '../interfaces/agency.interface';
+import { AgencyService } from '../services/agency.service';
 
-export interface IAgency {
-  _id: number;
-  name: string;
-  address: string;
-}
+
 
 @Component({
   selector: 'qr-page-list',
@@ -20,7 +18,8 @@ export interface IAgency {
   styleUrls: ['./page-list.component.css']
 })
 export class PageListComponent {
-  data: IAgency[] = this.getDataFromLocalStorage();
+  data: IAgency[] = [];
+  agencyService = inject(AgencyService);
 
   metaDataColumns: MetaDataColumn[] = [
     { field: "_id", title: "ID" },
@@ -35,7 +34,7 @@ export class PageListComponent {
 
   records: IAgency[] = [];
   paginatedData: IAgency[] = [];
-  totalRecords = this.data.length;
+  totalRecords = 0;
   currentPage = 0;  
 
   bottomSheet = inject(MatBottomSheet);
@@ -48,17 +47,30 @@ export class PageListComponent {
   }
 
   loadAgencies() {
-    this.records = this.data;
-    this.changePage(this.currentPage);  
+    this.agencyService.getAgencies().subscribe({
+      next:(response) =>{
+        this.records = response;
+        this.totalRecords = response.length;
+        this.changePage(this.currentPage);  
+      },
+      error:(error) =>{
+        console.log(error);
+      }
+    });
   }
 
   delete(id: number) {
-    const position = this.data.findIndex(ind => ind._id === id);
-    this.data.splice(position, 1); 
-    this.totalRecords = this.data.length;
+    this.agencyService.deleteAgency(id).subscribe({
+      next:(response) =>{
+        console.log(response);
+        this.loadAgencies();  
+        this.showMessage('Registro eliminado');
+      },
+      error:(error) =>{
+        console.log(error);
+      }
+    });
     this.saveToLocalStorage();
-    this.loadAgencies();  
-    this.showMessage('Registro eliminado');
   }
 
   getDataFromLocalStorage() {
@@ -97,19 +109,27 @@ export class PageListComponent {
     reference.afterClosed().subscribe((response) => {
       if (!response) { return; }
       if (response._id) {
-        const agencia = { ...response };
-        this.data = this.data.map(ind => ind._id === agencia._id ? agencia : ind);
-        this.saveToLocalStorage();
-        this.loadAgencies();  
-        this.showMessage('Registro actualizado');
+        this.agencyService.updateAgency(response).subscribe({
+          next:(response) =>{
+            console.log(response);
+            this.loadAgencies();  
+            this.showMessage('Registro actualizado');
+          },
+          error:(error) =>{
+            console.log(error);
+          }
+        });
       } else {
-        const lastId = this.data[this.data.length - 1]._id;
-        const agencia = { ...response, _id: lastId + 1 };
-        this.data.push(agencia);
-        this.totalRecords = this.data.length;
-        this.saveToLocalStorage();
-        this.loadAgencies();  
-        this.showMessage('Registro exitoso');
+        this.agencyService.addAgency(response).subscribe({
+          next:(response) =>{
+            console.log(response);
+            this.loadAgencies();  
+            this.showMessage('Registro agregado');
+          },
+          error:(error) =>{
+            console.log(error);
+          }
+        });
       }
     });
   }
