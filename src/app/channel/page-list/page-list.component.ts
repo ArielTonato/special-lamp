@@ -7,12 +7,9 @@ import { MetaDataColumn } from 'src/app/shared/interfaces/metacolumn.interface';
 import { FormComponent } from '../form/form.component';
 import { environment } from 'src/environments/environment.development';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ICanal } from '../interfaces/channel.interface';
 
-export interface ICanal {
-  _id: number;
-  name: string;
-  description: string;
-}
+
 
 @Component({
   selector: 'qr-page-list',
