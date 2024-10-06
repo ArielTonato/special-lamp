@@ -35,14 +35,13 @@ export class PageListComponent {
   records: IAgency[] = [];
   paginatedData: IAgency[] = [];
   totalRecords = 0;
-  currentPage = 0;  
+  currentPage = 0;
 
   bottomSheet = inject(MatBottomSheet);
   dialog = inject(MatDialog);
   snackBar = inject(MatSnackBar);
 
   constructor() {
-    this.saveToLocalStorage();
     this.loadAgencies();
   }
 
@@ -51,7 +50,7 @@ export class PageListComponent {
       next:(response) =>{
         this.records = response;
         this.totalRecords = response.length;
-        this.changePage(this.currentPage);  
+        this.changePage(this.currentPage);
       },
       error:(error) =>{
         console.log(error);
@@ -63,40 +62,16 @@ export class PageListComponent {
     this.agencyService.deleteAgency(id).subscribe({
       next:(response) =>{
         console.log(response);
-        this.loadAgencies();  
+        this.loadAgencies();
         this.showMessage('Registro eliminado');
       },
       error:(error) =>{
         console.log(error);
       }
     });
-    this.saveToLocalStorage();
   }
 
-  getDataFromLocalStorage() {
-    const agencies = localStorage.getItem('agencies');
-    return agencies ? JSON.parse(agencies) : [
-      { _id: 1, name: 'Ambato', address: 'Calle A' },
-      { _id: 2, name: 'Riobamba', address: 'Calle B' },
-      { _id: 3, name: 'Quito', address: 'Calle C' },
-      { _id: 4, name: 'Cuenca', address: 'Calle D' },
-      { _id: 5, name: 'Guayaquil', address: 'Calle E' },
-      { _id: 6, name: 'Ambato', address: 'Calle A' },
-      { _id: 7, name: 'Riobamba', address: 'Calle B' },
-      { _id: 8, name: 'Quito', address: 'Calle C' },
-      { _id: 9, name: 'Cuenca', address: 'Calle D' },
-      { _id: 10, name: 'Guayaquil', address: 'Calle E' },
-      { _id: 11, name: 'Ambato', address: 'Calle A' },
-      { _id: 12, name: 'Riobamba', address: 'Calle B' },
-      { _id: 13, name: 'Quito', address: 'Calle C' },
-      { _id: 14, name: 'Cuenca', address: 'Calle D' },
-      { _id: 15, name: 'Guayaquil', address: 'Calle E' },
-    ];
-  }
 
-  saveToLocalStorage() {
-    localStorage.setItem('agencies', JSON.stringify(this.data));
-  }
 
   openForm(row: any | null = null) {
     const options = {
@@ -112,7 +87,7 @@ export class PageListComponent {
         this.agencyService.updateAgency(response).subscribe({
           next:(response) =>{
             console.log(response);
-            this.loadAgencies();  
+            this.loadAgencies();
             this.showMessage('Registro actualizado');
           },
           error:(error) =>{
@@ -123,7 +98,7 @@ export class PageListComponent {
         this.agencyService.addAgency(response).subscribe({
           next:(response) =>{
             console.log(response);
-            this.loadAgencies();  
+            this.loadAgencies();
             this.showMessage('Registro agregado');
           },
           error:(error) =>{
@@ -154,7 +129,7 @@ export class PageListComponent {
   }
 
   changePage(page: number) {
-    this.currentPage = page;  
+    this.currentPage = page;
     const pageSize = environment.PAGE_SIZE;
     const skip = pageSize * page;
     this.paginatedData = this.records.slice(skip, skip + pageSize);

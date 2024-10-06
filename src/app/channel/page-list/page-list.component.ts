@@ -8,6 +8,7 @@ import { FormComponent } from '../form/form.component';
 import { environment } from 'src/environments/environment.development';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ICanal } from '../interfaces/channel.interface';
+import { ChannelService } from '../services/channel.service';
 
 
 
@@ -17,7 +18,8 @@ import { ICanal } from '../interfaces/channel.interface';
   styleUrls: ['./page-list.component.css']
 })
 export class PageListComponent {
-  data: ICanal[] = this.getDataFromLocalStorage();
+  data: ICanal[] = [];
+  channelService = inject(ChannelService);
 
   metaDataColumns: MetaDataColumn[] = [
     { field: "_id", title: "ID" },
@@ -32,7 +34,7 @@ export class PageListComponent {
 
   records: ICanal[] = [];
   paginatedData: ICanal[] = [];
-  totalRecords = this.data.length;
+  totalRecords = 0;
   currentPage = 0;
 
   bottomSheet = inject(MatBottomSheet);
@@ -40,37 +42,33 @@ export class PageListComponent {
   snackBar = inject(MatSnackBar);
 
   constructor() {
-    this.saveToLocalStorage();
     this.loadCanales();
   }
 
   loadCanales() {
-    this.records = this.data;
-    this.changePage(this.currentPage);  
+    this.channelService.getChannels().subscribe({
+      next: (response) => {
+        this.records = response;
+        this.totalRecords = response.length;
+        this.changePage(this.currentPage);
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    })
   }
 
   delete(id: number) {
-    const position = this.data.findIndex(ind => ind._id === id);
-    this.data.splice(position, 1); 
-    this.totalRecords = this.data.length;
-    this.saveToLocalStorage();
-    this.loadCanales();  
-    this.showMessage('Registro eliminado');
-  }
-
-  getDataFromLocalStorage() {
-    const canales = localStorage.getItem('canales');
-    return canales ? JSON.parse(canales) : [
-      { _id: 1, name: 'Teléfono', description: 'Atención telefónica' },
-      { _id: 2, name: 'Correo Electrónico', description: 'Atención por email' },
-      { _id: 3, name: 'Formulario Web', description: 'Formulario en el sitio web' },
-      { _id: 4, name: 'Chat en línea', description: 'Atención mediante chat' },
-      { _id: 5, name: 'Redes Sociales', description: 'Atención por redes sociales' },
-    ];
-  }
-
-  saveToLocalStorage() {
-    localStorage.setItem('canales', JSON.stringify(this.data));
+    this.channelService.deleteChannel(id).subscribe({
+      next: (response) => {
+        console.log(response);
+        this.loadCanales();
+        this.showMessage('Registro eliminado');
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
   }
 
   openForm(row: any | null = null) {
@@ -84,19 +82,27 @@ export class PageListComponent {
     reference.afterClosed().subscribe((response) => {
       if (!response) { return; }
       if (response._id) {
-        const canal = { ...response };
-        this.data = this.data.map(ind => ind._id === canal._id ? canal : ind);
-        this.saveToLocalStorage();
-        this.loadCanales();  
-        this.showMessage('Registro actualizado');
+        this.channelService.updateChannel(response).subscribe({
+          next: (response) => {
+            console.log(response);
+            this.loadCanales();
+            this.showMessage('Registro actualizado');
+          },
+          error: (error) => {
+            console.log(error);
+          }
+        });
       } else {
-        const lastId = this.data[this.data.length - 1]._id;
-        const canal = { ...response, _id: lastId + 1 };
-        this.data.push(canal);
-        this.totalRecords = this.data.length;
-        this.saveToLocalStorage();
-        this.loadCanales();  
-        this.showMessage('Registro exitoso');
+        this.channelService.saveChannel(response).subscribe({
+          next: (response) => {
+            console.log(response);
+            this.loadCanales();
+            this.showMessage('Registro agregado');
+          },
+          error: (error) => {
+            console.log(error);
+          }
+        });
       }
     });
   }
@@ -121,7 +127,7 @@ export class PageListComponent {
   }
 
   changePage(page: number) {
-    this.currentPage = page;  
+    this.currentPage = page;
     const pageSize = environment.PAGE_SIZE;
     const skip = pageSize * page;
     this.paginatedData = this.records.slice(skip, skip + pageSize); // Actualiza solo los datos paginados
