@@ -46,7 +46,7 @@ export class PageListComponent {
   }
 
   loadCanales() {
-    this.channelService.getChannels().subscribe({
+    this.channelService.getAll().subscribe({
       next: (response) => {
         this.records = response;
         this.totalRecords = response.length;
@@ -59,7 +59,7 @@ export class PageListComponent {
   }
 
   delete(id: number) {
-    this.channelService.deleteChannel(id).subscribe({
+    this.channelService.delete(id).subscribe({
       next: (response) => {
         console.log(response);
         this.loadCanales();
@@ -82,7 +82,7 @@ export class PageListComponent {
     reference.afterClosed().subscribe((response) => {
       if (!response) { return; }
       if (response._id) {
-        this.channelService.updateChannel(response).subscribe({
+        this.channelService.update(response).subscribe({
           next: (response) => {
             console.log(response);
             this.loadCanales();
@@ -93,7 +93,7 @@ export class PageListComponent {
           }
         });
       } else {
-        this.channelService.saveChannel(response).subscribe({
+        this.channelService.add(response).subscribe({
           next: (response) => {
             console.log(response);
             this.loadCanales();

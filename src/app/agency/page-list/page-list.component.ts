@@ -46,7 +46,7 @@ export class PageListComponent {
   }
 
   loadAgencies() {
-    this.agencyService.getAgencies().subscribe({
+    this.agencyService.getAll().subscribe({
       next:(response) =>{
         this.records = response;
         this.totalRecords = response.length;
@@ -59,7 +59,7 @@ export class PageListComponent {
   }
 
   delete(id: number) {
-    this.agencyService.deleteAgency(id).subscribe({
+    this.agencyService.delete(id).subscribe({
       next:(response) =>{
         console.log(response);
         this.loadAgencies();
@@ -84,7 +84,7 @@ export class PageListComponent {
     reference.afterClosed().subscribe((response) => {
       if (!response) { return; }
       if (response._id) {
-        this.agencyService.updateAgency(response).subscribe({
+        this.agencyService.update(response).subscribe({
           next:(response) =>{
             console.log(response);
             this.loadAgencies();
@@ -95,7 +95,7 @@ export class PageListComponent {
           }
         });
       } else {
-        this.agencyService.addAgency(response).subscribe({
+        this.agencyService.add(response).subscribe({
           next:(response) =>{
             console.log(response);
             this.loadAgencies();
