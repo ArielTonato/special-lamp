@@ -20,7 +20,6 @@ export abstract class BaseService<T> {
   }
 
   update(item: T, idField: string = '_id'): Observable<void> {
-    // Se asume que cada objeto tiene un campo ID
     return this.http.put<void>(`${this.apiUrl}/${(item as any)[idField]}`, item);
   }
 
